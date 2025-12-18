@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הנסיך הקטן - פרק 8 | פרשנות אינטראקטיבית</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.6.0/dist/tabler-icons.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600&display=swap');
+
+```
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    :root {
+        --sand: #F5E6C8;
+        --sand-light: #FDF8EE;
+        --sand-dark: #E8D4A8;
+        --sky-blue: #87CEEB;
+        --sky-dark: #5BA3C6;
+        --rose-pink: #E8A0A0;
+        --rose-dark: #C77878;
+        --green-soft: #8FBC8F;
+        --star-gold: #FFD700;
+        --text-brown: #5D4E37;
+        --text-light: #7A6B55;
+    }
+    
+    body {
+        font-family: 'Heebo', sans-serif;
+        background: linear-gradient(180deg, var(--sky-blue) 0%, var(--sand-light) 40%, var(--sand) 100%);
+        min-height: 100vh;
+        color: var(--text-brown);
+        overflow-x: hidden;
+    }
+    
+    /* Stars Animation */
+    .stars-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 40%;
+        pointer-events: none;
+        z-index: 0;
+    }
+    
+    .star {
+        position: absolute;
+        color: var(--star-gold);
+        opacity: 0.6;
+        animation: twinkle 3s ease-in-out infinite;
+    }
+    
+    @keyframes twinkle {
+        0%, 100% { opacity: 0.3; transform: scale(0.8); }
+        50% { opacity: 0.8; transform: scale(1.1); }
+    }
+    
+    /* Header */
+    .header {
+        text-align: center;
+        padding: 40px 20px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .header h1 {
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: var(--text-brown);
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+    }
+    
+    .header .subtitle {
+        font-size: 1.1rem;
+        color: var(--text-light);
+        font-weight: 300;
+    }
+    
+    .rose-icon {
+        font-size: 3rem;
+        color: var(--rose-pink);
+        margin: 20px 0;
+        animation: sway 4s ease-in-out infinite;
+    }
+    
+    @keyframes sway {
+        0%, 100% { transform: rotate(-3deg); }
+        50% { transform: rotate(3deg); }
+    }
+    
+    /* Main Container */
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Navigation */
+    .nav-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+    }
+    
+    .nav-btn {
+        background: var(--sand-light);
+        border: 2px solid var(--sand-dark);
+        padding: 12px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Heebo', sans-serif;
+        font-size: 0.95rem;
+        color: var(--text-brown);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .nav-btn:hover {
+        background: var(--sand-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .nav-btn.active {
+        background: var(--rose-pink);
+        border-color: var(--rose-dark);
+        color: white;
+    }
+    
+    .nav-btn i {
+        font-size: 1.2rem;
+    }
+    
+    /* Content Sections */
+    .section {
+        display: none;
+        animation: fadeIn 0.6s ease;
+    }
+    
+    .section.active {
+        display: block;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Cards */
+    .card {
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 25px;
+        box-shadow: 0 8px 32px rgba(93, 78, 55, 0.1);
+        border: 1px solid var(--sand-dark);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--rose-pink), var(--sky-blue), var(--star-gold));
+    }
+    
+    .card-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+    
+    .card-icon.rose { background: var(--rose-pink); color: white; }
+    .card-icon.star { background: var(--star-gold); color: white; }
+    .card-icon.sky { background: var(--sky-blue); color: white; }
+    .card-icon.green { background: var(--green-soft); color: white; }
+    
+    .card h2 {
+        font-size: 1.4rem;
+        font-weight: 500;
+        color: var(--text-brown);
+    }
+    
+    .card p {
+        line-height: 1.9;
+        color: var(--text-light);
+        font-size: 1.05rem;
+    }
+    
+    /* Quote Box */
+    .quote-box {
+        background: linear-gradient(135deg, var(--sand-light), var(--sand));
+        border-right: 4px solid var(--rose-pink);
+        padding: 20px 25px;
+        margin: 20px 0;
+        border-radius: 0 15px 15px 0;
+        font-style: italic;
+        position: relative;
+    }
+    
+    .quote-box::before {
+        content: '\eb48';
+        font-family: 'tabler-icons';
+        position: absolute;
+        top: -10px;
+        right: 15px;
+        font-size: 2rem;
+        color: var(--rose-pink);
+        opacity: 0.5;
+    }
+    
+    /* Interactive Elements */
+    .reveal-container {
+        margin: 25px 0;
+    }
+    
+    .reveal-btn {
+        background: linear-gradient(135deg, var(--sky-blue), var(--sky-dark));
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-family: 'Heebo', sans-serif;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 auto;
+        transition: all 0.3s ease;
+    }
+    
+    .reveal-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(91, 163, 198, 0.4);
+    }
+    
+    .reveal-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease, padding 0.5s ease;
+        background: var(--sand-light);
+        border-radius: 15px;
+        margin-top: 15px;
+    }
+    
+    .reveal-content.open {
+        max-height: 500px;
+        padding: 25px;
+    }
+    
+    /* Symbol Grid */
+    .symbol-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+    }
+    
+    .symbol-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .symbol-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--rose-pink);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .symbol-card i {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        display: block;
+    }
+    
+    .symbol-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        color: var(--text-brown);
+    }
+    
+    .symbol-card p {
+        font-size: 0.9rem;
+        color: var(--text-light);
+        display: none;
+    }
+    
+    .symbol-card.expanded p {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    /* Timeline */
+    .timeline {
+        position: relative;
+        padding-right: 30px;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        right: 8px;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, var(--rose-pink), var(--sky-blue));
+        border-radius: 3px;
+    }
+    
+    .timeline-item {
+        position: relative;
+        padding: 20px 40px 20px 0;
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: all 0.5s ease;
+    }
+    
+    .timeline-item.visible {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 25px;
+        width: 18px;
+        height: 18px;
+        background: white;
+        border: 3px solid var(--rose-pink);
+        border-radius: 50%;
+    }
+    
+    .timeline-item h3 {
+        color: var(--text-brown);
+        margin-bottom: 8px;
+        font-size: 1.1rem;
+    }
+    
+    .timeline-item p {
+        color: var(--text-light);
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+    
+    /* Reflection Section */
+    .reflection-prompt {
+        background: linear-gradient(135deg, rgba(232, 160, 160, 0.2), rgba(135, 206, 235, 0.2));
+        border-radius: 20px;
+        padding: 30px;
+        margin: 25px 0;
+        text-align: center;
+    }
+    
+    .reflection-prompt i {
+        font-size: 2.5rem;
+        color: var(--rose-dark);
+        margin-bottom: 15px;
+    }
+    
+    .reflection-prompt h3 {
+        margin-bottom: 15px;
+        color: var(--text-brown);
+    }
+    
+    .reflection-prompt p {
+        color: var(--text-light);
+        line-height: 1.8;
+    }
+    
+    /* Footer */
+    .footer {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--text-light);
+        font-size: 0.9rem;
+    }
+    
+    .footer i {
+        color: var(--rose-pink);
+        margin: 0 5px;
+    }
+    
+    /* Planet decoration */
+    .planet {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(circle at 30% 30%, var(--sand), var(--sand-dark));
+        border-radius: 50%;
+        box-shadow: inset -10px -10px 20px rgba(0,0,0,0.1);
+        z-index: 0;
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-15px); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 600px) {
+        .header h1 { font-size: 1.8rem; }
+        .nav-btn { padding: 10px 15px; font-size: 0.85rem; }
+        .card { padding: 20px; }
+        .symbol-grid { grid-template-columns: 1fr; }
+    }
+</style>
+```
+
+</head>
+<body>
+    <!-- Stars -->
+    <div class="stars-container" id="stars"></div>
+
+```
+<!-- Planet decoration -->
+<div class="planet"></div>
+
+<header class="header">
+    <h1>הנסיך הקטן</h1>
+    <p class="subtitle">פרק שמונה - הוורד</p>
+    <div class="rose-icon">
+        <i class="ti ti-flower"></i>
+    </div>
+</header>
+
+<main class="container">
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <button class="nav-btn active" data-section="summary">
+            <i class="ti ti-book"></i>
+            סיכום הפרק
+        </button>
+        <button class="nav-btn" data-section="symbols">
+            <i class="ti ti-sparkles"></i>
+            סמלים ומשמעויות
+        </button>
+        <button class="nav-btn" data-section="journey">
+            <i class="ti ti-route"></i>
+            מסע רגשי
+        </button>
+        <button class="nav-btn" data-section="depth">
+            <i class="ti ti-bulb"></i>
+            פרשנות מעמיקה
+        </button>
+        <button class="nav-btn" data-section="reflect">
+            <i class="ti ti-heart"></i>
+            לחשוב על זה
+        </button>
+    </nav>
+    
+    <!-- Section 1: Summary -->
+    <section class="section active" id="summary">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon rose">
+                    <i class="ti ti-book-2"></i>
+                </div>
+                <h2>מה קורה בפרק?</h2>
+            </div>
+            <p>
+                בפרק הזה אנחנו פוגשים לראשונה את הוורד - הפרח המיוחד שצמח על כוכבו של הנסיך הקטן. 
+                הוורד הגיע מזרע מסתורי שהגיע ממקום לא ידוע, והנסיך צפה בו בהתפעלות כשהתפתח לאט לאט.
+            </p>
+            
+            <div class="quote-box">
+                "הוורד הטריח את עצמו זמן רב להתקשט. הוא בחר את צבעיו בקפידה, התלבש לאט לאט, כיוון את עלי הכותרת שלו אחד אחד."
+            </div>
+            
+            <p>
+                הוורד נחשף כיצור יהיר וגאוותן, שדורש תשומת לב מתמדת. הוא מבקש מהנסיך להגן עליו מהרוח, 
+                לתת לו מים, ומתלונן על הכל. אבל למרות כל ההתנהגות הזו - הנסיך מתאהב בו.
+            </p>
+            
+            <div class="reveal-container">
+                <button class="reveal-btn" onclick="toggleReveal(this)">
+                    <i class="ti ti-eye"></i>
+                    למה הנסיך עזב?
+                </button>
+                <div class="reveal-content">
+                    <p>
+                        למרות אהבתו העמוקה, הנסיך מודה שלא ידע איך להתמודד עם ההתנהגות של הוורד.
+                        הוא לקח את דבריו ברצינות רבה מדי, במקום להבין שמאחורי הגאווה והדרישות 
+                        מסתתרת אהבה אמיתית. הוא עזב כי היה צעיר מדי להבין שצריך לשפוט לפי מעשים, לא לפי מילים.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 2: Symbols -->
+    <section class="section" id="symbols">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon star">
+                    <i class="ti ti-sparkles"></i>
+                </div>
+                <h2>סמלים ומשמעויות</h2>
+            </div>
+            <p>לחצו על כל סמל כדי לגלות את המשמעות העמוקה שלו:</p>
+            
+            <div class="symbol-grid">
+                <div class="symbol-card" onclick="toggleSymbol(this)">
+                    <i class="ti ti-flower" style="color: var(--rose-pink);"></i>
+                    <h3>הוורד</h3>
+                    <p>הוורד מסמל אהבה - אבל לא אהבה פשוטה. הוא מייצג את האנשים שאנחנו אוהבים, 
+                    על כל המורכבות שלהם. הגאווה והקפריזות של הוורד הם הדרך שלו לבדוק אם באמת אוהבים אותו.</p>
+                </div>
+                
+                <div class="symbol-card" onclick="toggleSymbol(this)">
+                    <i class="ti ti-shield" style="color: var(--sky-dark);"></i>
+                    <h3>הקוצים</h3>
+                    <p>הקוצים הם מנגנון ההגנה של הוורד. כמו בני אדם, גם הוורד בונה חומות סביבו 
+                    כשהוא פגיע. הקוצים לא באמת מגנים, אבל הם גורמים לו להרגיש בטוח יותר.</p>
+                </div>
+                
+                <div class="symbol-card" onclick="toggleSymbol(this)">
+                    <i class="ti ti-planet" style="color: var(--sand-dark);"></i>
+                    <h3>הכוכב הקטן</h3>
+                    <p>הכוכב הקטן הוא העולם הפרטי, האינטימי. זה המקום שבו מערכות יחסים מתפתחות - 
+                    קטן, אישי, ומלא באחריות. הכוכב דורש טיפול יומיומי, בדיוק כמו כל מערכת יחסים.</p>
+                </div>
+                
+                <div class="symbol-card" onclick="toggleSymbol(this)">
+                    <i class="ti ti-sun" style="color: var(--star-gold);"></i>
+                    <h3>הזריחות</h3>
+                    <p>הנסיך רואה 44 זריחות ביום אחד כשהוא עצוב. הזריחות מסמלות את הנחמה 
+                    שאנחנו מחפשים ברגעי כאב, ואת היכולת למצוא יופי גם בתוך העצב.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 3: Emotional Journey -->
+    <section class="section" id="journey">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon sky">
+                    <i class="ti ti-route"></i>
+                </div>
+                <h2>המסע הרגשי של הנסיך</h2>
+            </div>
+            <p>הפרק מתאר מסע רגשי שלם - מסקרנות לאהבה, מאהבה לבלבול, ומבלבול לעזיבה:</p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3><i class="ti ti-eye"></i> גילוי והתפעלות</h3>
+                    <p>הנסיך מגלה זרע חדש ועוקב אחרי ההתפתחות שלו בסקרנות. הוא צופה בפרח בונה את עצמו בקפידה, בוחר צבעים, מתכונן להתגלות.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3><i class="ti ti-heart"></i> אהבה ראשונה</h3>
+                    <p>כשהוורד נפתח, הנסיך מופתע מיופיו. הוא לא יכול להתאפק ואומר לו כמה הוא יפה. זו התאהבות במבט ראשון.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3><i class="ti ti-cloud"></i> בלבול ותסכול</h3>
+                    <p>הוורד מתחיל להציג דרישות ותלונות. הנסיך מנסה לרצות אותו אבל שום דבר לא מספיק טוב. הוא מתחיל להטיל ספק באהבה.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3><i class="ti ti-door-exit"></i> עזיבה מתוך כאב</h3>
+                    <p>הנסיך מחליט לעזוב. הוא לא מבין שהוורד פשוט לא יודע לבטא אהבה בצורה ישירה. העזיבה היא בריחה מכאב, לא חוסר אהבה.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 4: Deep Interpretation -->
+    <section class="section" id="depth">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon green">
+                    <i class="ti ti-bulb"></i>
+                </div>
+                <h2>פרשנות מעמיקה</h2>
+            </div>
+            
+            <h3 style="margin: 20px 0 15px; color: var(--text-brown);">
+                <i class="ti ti-message-heart"></i> על תקשורת באהבה
+            </h3>
+            <p>
+                סאן-טגזופרי מראה לנו שאהבה אמיתית לא תמיד מתבטאת במילים יפות. 
+                הוורד אומר "אני מצוננת" כשהוא מתכוון "אני צריכה אותך". 
+                הוא מתלונן על הרוח כי הוא רוצה שהנסיך יישאר קרוב.
+            </p>
+            
+            <div class="quote-box">
+                "הייתי צריך לשפוט אותה לפי מעשיה ולא לפי דבריה. היא האירה והבשימה את חיי. לא הייתי צריך לברוח ממנה!"
+            </div>
+            
+            <h3 style="margin: 25px 0 15px; color: var(--text-brown);">
+                <i class="ti ti-arrows-exchange"></i> על פגיעות וגאווה
+            </h3>
+            <p>
+                הוורד הוא דמות פגיעה מאוד שמסתתרת מאחורי מסכה של גאווה. 
+                ארבעת הקוצים שלו הם ניסיון עלוב להגן על עצמו מפני עולם שהוא לא מכיר.
+                זו תובנה עמוקה על איך אנשים מתנהגים כשהם מפחדים - הם דוחים את מי שהם אוהבים.
+            </p>
+            
+            <div class="reveal-container">
+                <button class="reveal-btn" onclick="toggleReveal(this)">
+                    <i class="ti ti-key"></i>
+                    המפתח להבנה
+                </button>
+                <div class="reveal-content">
+                    <p>
+                        <strong>המסר המרכזי:</strong> אנחנו אחראים לנו שאילפנו. 
+                        האילוף הזה - ההשקעה, הזמן, הסבלנות - הוא שהופך משהו רגיל למשהו מיוחד.
+                        הוורד של הנסיך הוא כמו כל ורד אחר בעיניים של זר, אבל בשביל הנסיך הוא יחיד ומיוחד 
+                        כי הוא השקיע בו, טיפל בו, אהב אותו.
+                    </p>
+                    <p style="margin-top: 15px;">
+                        הטעות של הנסיך הייתה שהוא לא הבין את זה בזמן. הוא היה צריך לראות מעבר למילים, 
+                        להבין שהאהבה מתבטאת לפעמים בדרכים עקומות ומבלבלות.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 5: Reflection -->
+    <section class="section" id="reflect">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon rose">
+                    <i class="ti ti-heart"></i>
+                </div>
+                <h2>שאלות לחשיבה</h2>
+            </div>
+            
+            <div class="reflection-prompt">
+                <i class="ti ti-message-circle-question"></i>
+                <h3>האם יש לך "ורד" בחיים?</h3>
+                <p>מישהו שאתה אוהב למרות שלפעמים קשה איתו? מישהו שהשקעת בו כל כך הרבה שהוא הפך למיוחד רק בשבילך?</p>
+            </div>
+            
+            <div class="reflection-prompt">
+                <i class="ti ti-mood-puzzled"></i>
+                <h3>מתי פספסת את המשמעות מאחורי המילים?</h3>
+                <p>האם אי פעם מישהו אמר לך משהו שהבנת רק אחר כך שהתכוון למשהו אחר לגמרי?</p>
+            </div>
+            
+            <div class="reflection-prompt">
+                <i class="ti ti-shield-heart"></i>
+                <h3>מה הקוצים שלך?</h3>
+                <p>איך אתה מגן על עצמך כשאתה מרגיש פגיע? האם לפעמים ההגנות האלה דוחות את מי שאתה אוהב?</p>
+            </div>
+            
+            <div class="card" style="background: linear-gradient(135deg, var(--sand-light), var(--rose-pink) 150%); margin-top: 30px;">
+                <div style="text-align: center;">
+                    <i class="ti ti-quote" style="font-size: 2rem; color: var(--rose-dark); margin-bottom: 15px;"></i>
+                    <p style="font-size: 1.2rem; color: var(--text-brown); font-style: italic;">
+                        "רואים טוב רק בלב. העיקר נסתר מן העיניים."
+                    </p>
+                    <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-light);">
+                        - אנטואן דה סאן-טגזופרי
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>
+        <i class="ti ti-star-filled"></i>
+        נוצר באהבה לזכר הנסיך הקטן
+        <i class="ti ti-star-filled"></i>
+    </p>
+</footer>
+
+<script>
+    // Create stars
+    function createStars() {
+        const container = document.getElementById('stars');
+        const starCount = 25;
+        
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('i');
+            star.className = 'ti ti-star-filled star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.fontSize = (Math.random() * 10 + 8) + 'px';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            container.appendChild(star);
+        }
+    }
+    
+    // Navigation
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Update buttons
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Update sections
+            const sectionId = this.dataset.section;
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Animate timeline items if showing journey section
+            if (sectionId === 'journey') {
+                animateTimeline();
+            }
+        });
+    });
+    
+    // Toggle reveal content
+    function toggleReveal(btn) {
+        const content = btn.nextElementSibling;
+        content.classList.toggle('open');
+        
+        const icon = btn.querySelector('i');
+        if (content.classList.contains('open')) {
+            icon.className = 'ti ti-eye-off';
+        } else {
+            icon.className = 'ti ti-eye';
+        }
+    }
+    
+    // Toggle symbol cards
+    function toggleSymbol(card) {
+        card.classList.toggle('expanded');
+    }
+    
+    // Animate timeline
+    function animateTimeline() {
+        const items = document.querySelectorAll('.timeline-item');
+        items.forEach((item, index) => {
+            item.classList.remove('visible');
+            setTimeout(() => {
+                item.classList.add('visible');
+            }, index * 300);
+        });
+    }
+    
+    // Initialize
+    createStars();
+    
+    // Initial timeline animation if visible
+    if (document.getElementById('journey').classList.contains('active')) {
+        animateTimeline();
+    }
+</script>
+```
+
+</body>
+</html>
