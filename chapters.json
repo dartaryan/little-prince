@@ -12,7 +12,7 @@
       "title": "המפגש במדבר",
       "icon": "ti-plane",
       "color": "#87CEEB",
-      "available": false
+      "available": true
     },
     {
       "number": 3,
