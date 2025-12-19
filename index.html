@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>הנסיך הקטן | פרשנות אינטראקטיבית לגל</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/fonts/tabler-icons.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -45,9 +46,15 @@
     }
     .star {
         position: absolute;
-        color: var(--star-gold);
-        opacity: 0.6;
+        width: 12px;
+        height: 12px;
         animation: twinkle 3s ease-in-out infinite;
+    }
+    .star svg {
+        width: 100%;
+        height: 100%;
+        fill: #FFD700;
+        filter: drop-shadow(0 0 3px #FFD700);
     }
     
     /* PLANET DECORATIONS */
@@ -62,7 +69,7 @@
         left: 5%;
         width: 120px;
         height: 120px;
-        background: radial-gradient(circle at 30% 30%, var(--sand), var(--sand-dark));
+        background: radial-gradient(circle at 30% 30%, #F5E6C8, #E8D4A8);
         box-shadow: inset -15px -15px 30px rgba(0,0,0,0.2);
     }
     .planet-2 {
@@ -70,7 +77,7 @@
         right: 8%;
         width: 60px;
         height: 60px;
-        background: radial-gradient(circle at 30% 30%, var(--rose-pink), var(--rose-dark));
+        background: radial-gradient(circle at 30% 30%, #E8A0A0, #C77878);
         box-shadow: inset -8px -8px 20px rgba(0,0,0,0.2);
         animation-delay: -2s;
     }
@@ -79,7 +86,7 @@
         left: 3%;
         width: 40px;
         height: 40px;
-        background: radial-gradient(circle at 30% 30%, var(--sky-blue), var(--sky-dark));
+        background: radial-gradient(circle at 30% 30%, #87CEEB, #5BA3C6);
         box-shadow: inset -5px -5px 15px rgba(0,0,0,0.2);
         animation-delay: -4s;
     }
@@ -93,10 +100,11 @@
     }
     .header-icon {
         font-size: 5rem;
-        color: var(--star-gold);
+        color: #FFD700 !important;
         margin-bottom: 20px;
         display: inline-block;
         animation: float 4s ease-in-out infinite;
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
     }
     .header h1 {
         font-size: 3.5rem;
@@ -108,13 +116,13 @@
     }
     .header .subtitle {
         font-size: 1.3rem;
-        color: var(--sand);
+        color: #F5E6C8;
         font-weight: 300;
         margin-bottom: 10px;
     }
     .header .dedication {
         font-size: 1rem;
-        color: var(--rose-pink);
+        color: #E8A0A0;
         font-style: italic;
         margin-top: 20px;
         padding: 10px 25px;
@@ -142,13 +150,13 @@
     .main-quote blockquote {
         font-size: 1.4rem;
         font-style: italic;
-        color: var(--sand);
+        color: #F5E6C8;
         margin-bottom: 10px;
         line-height: 1.8;
     }
     .main-quote cite {
         font-size: 0.9rem;
-        color: var(--text-secondary);
+        color: #7A6B55;
     }
     
     /* CHAPTERS GRID */
@@ -162,11 +170,11 @@
         text-align: center;
         font-size: 1.8rem;
         font-weight: 400;
-        color: var(--text-primary);
+        color: #5D4E37;
         margin-bottom: 30px;
     }
     .chapters-section h2 i {
-        color: var(--rose-pink);
+        color: #E8A0A0;
         margin-left: 10px;
     }
     
@@ -177,12 +185,12 @@
     }
     
     .chapter-card {
-        background: var(--sand-light);
+        background: #FDF8EE;
         border-radius: 20px;
         padding: 25px 15px;
         text-align: center;
         text-decoration: none;
-        color: var(--text-primary);
+        color: #5D4E37;
         border: 2px solid transparent;
         transition: all 0.3s ease;
         position: relative;
@@ -195,13 +203,13 @@
         left: 0;
         right: 0;
         height: 4px;
-        background: var(--chapter-color, var(--rose-pink));
+        background: var(--chapter-color, #E8A0A0);
         opacity: 0;
         transition: opacity 0.3s ease;
     }
     .chapter-card:hover {
         transform: translateY(-8px);
-        border-color: var(--chapter-color, var(--rose-pink));
+        border-color: var(--chapter-color, #E8A0A0);
         box-shadow: 0 15px 40px rgba(0,0,0,0.15);
     }
     .chapter-card:hover::before {
@@ -209,15 +217,15 @@
     }
     .chapter-card .chapter-number {
         font-size: 0.85rem;
-        color: var(--text-secondary);
+        color: #7A6B55;
         margin-bottom: 8px;
     }
     .chapter-card .chapter-icon {
         font-size: 2.5rem;
-        color: var(--chapter-color, var(--rose-pink));
         margin-bottom: 12px;
         display: block;
         transition: transform 0.3s ease;
+        color: var(--chapter-color, #E8A0A0) !important;
     }
     .chapter-card:hover .chapter-icon {
         transform: scale(1.15);
@@ -225,7 +233,7 @@
     .chapter-card .chapter-title {
         font-size: 0.95rem;
         font-weight: 500;
-        color: var(--text-primary);
+        color: #5D4E37;
         line-height: 1.4;
     }
     
@@ -243,7 +251,7 @@
         top: 10px;
         left: 10px;
         font-size: 0.7rem;
-        background: var(--text-secondary);
+        background: #7A6B55;
         color: white;
         padding: 3px 8px;
         border-radius: 10px;
@@ -271,7 +279,7 @@
     }
     .progress-info p {
         font-size: 0.9rem;
-        color: var(--sand);
+        color: #F5E6C8;
     }
     .progress-bar {
         flex: 1;
@@ -284,7 +292,7 @@
     }
     .progress-fill {
         height: 100%;
-        background: linear-gradient(90deg, var(--rose-pink), var(--star-gold));
+        background: linear-gradient(90deg, #E8A0A0, #FFD700);
         border-radius: 10px;
         transition: width 0.5s ease;
     }
@@ -293,13 +301,13 @@
     .footer {
         text-align: center;
         padding: 50px 20px;
-        color: var(--sand);
+        color: #F5E6C8;
         font-size: 0.9rem;
         position: relative;
         z-index: 1;
     }
     .footer i {
-        color: var(--star-gold);
+        color: #FFD700 !important;
         margin: 0 8px;
     }
     .footer p {
@@ -307,8 +315,11 @@
     }
     .footer .credit {
         font-size: 0.8rem;
-        color: var(--text-secondary);
+        color: #7A6B55;
         margin-top: 15px;
+    }
+    .footer .credit i {
+        color: #E8A0A0 !important;
     }
     
     /* ANIMATIONS */
@@ -353,12 +364,14 @@
 <!-- HEADER -->
 <header class="header">
     <div class="header-icon">
-        <i class="ti ti-crown"></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width: 80px; height: 80px; color: #FFD700; filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));">
+            <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
+        </svg>
     </div>
     <h1>הנסיך הקטן</h1>
     <p class="subtitle">פרשנות אינטראקטיבית</p>
     <span class="dedication">
-        <i class="ti ti-heart-filled"></i>
+        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; fill: #E8A0A0; vertical-align: middle; margin-left: 5px;"><path d="M6.979 3.074a6 6 0 0 1 4.988 1.425l.033 .034l.033 -.034a6 6 0 0 1 9.927 6.472l-.028 .07l-7.255 7.323a1 1 0 0 1 -1.41 .013l-7.322 -7.336a6 6 0 0 1 .034 -7.967z"/></svg>
         מוקדש לגל
     </span>
 </header>
@@ -374,7 +387,13 @@
     <!-- CHAPTERS GRID -->
     <section class="chapters-section">
         <h2>
-            <i class="ti ti-book"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#E8A0A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 28px; height: 28px; vertical-align: middle; margin-left: 10px;">
+                <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+                <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+                <path d="M3 6l0 13" />
+                <path d="M12 6l0 13" />
+                <path d="M21 6l0 13" />
+            </svg>
             בחר פרק
         </h2>
         
@@ -573,7 +592,13 @@
     <!-- PROGRESS -->
     <div class="progress-section">
         <div class="progress-info">
-            <h3><i class="ti ti-chart-line"></i> התקדמות</h3>
+            <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px; vertical-align: middle; margin-left: 5px;">
+                    <path d="M4 19l16 0" />
+                    <path d="M4 15l4 -6l4 2l4 -5l4 4" />
+                </svg>
+                התקדמות
+            </h3>
             <p><span id="completed-count">1</span> מתוך 27 פרקים זמינים</p>
         </div>
         <div class="progress-bar">
@@ -585,28 +610,32 @@
 <!-- FOOTER -->
 <footer class="footer">
     <p>
-        <i class="ti ti-star-filled"></i>
+        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; fill: #FFD700; vertical-align: middle; margin: 0 8px;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         הנסיך הקטן - פרשנות אינטראקטיבית
-        <i class="ti ti-star-filled"></i>
+        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; fill: #FFD700; vertical-align: middle; margin: 0 8px;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
     </p>
     <p class="credit">
         נוצר באהבה עבור גל
-        <i class="ti ti-heart"></i>
+        <svg viewBox="0 0 24 24" style="width: 14px; height: 14px; fill: #E8A0A0; vertical-align: middle; margin-right: 5px;"><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"/></svg>
     </p>
 </footer>
 
 <script>
-    // Create stars
+    // Create stars using SVG (more reliable than font icons)
     function createStars() {
         const container = document.getElementById('stars');
         const starCount = 80;
+        const starSVG = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
         
         for (let i = 0; i < starCount; i++) {
-            const star = document.createElement('i');
-            star.className = 'ti ti-star-filled star';
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.innerHTML = starSVG;
             star.style.left = Math.random() * 100 + '%';
             star.style.top = Math.random() * 100 + '%';
-            star.style.fontSize = (Math.random() * 8 + 4) + 'px';
+            const size = Math.random() * 10 + 6;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
             star.style.animationDelay = Math.random() * 3 + 's';
             star.style.animationDuration = (Math.random() * 2 + 2) + 's';
             container.appendChild(star);
