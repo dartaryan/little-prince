@@ -386,18 +386,34 @@
             .container {
                 padding: 1rem;
             }
-            
+
             .chapter-title {
                 font-size: 2rem;
             }
-            
+
             .symbols-grid {
                 grid-template-columns: 1fr;
             }
         }
+        
+        /* READING PROGRESS INDICATOR */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+            z-index: 1000;
+            transition: width 0.1s ease-out;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
+    <!-- READING PROGRESS INDICATOR -->
+    <div class="reading-progress" id="readingProgress"></div>
+    
     <div class="container">
         <!-- Header -->
         <header class="chapter-header">
@@ -1005,6 +1021,17 @@
                     break;
             }
         });
+        
+        // Reading Progress Indicator
+        function updateReadingProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            document.getElementById('readingProgress').style.width = progress + '%';
+        }
+        window.addEventListener('scroll', updateReadingProgress);
+        window.addEventListener('resize', updateReadingProgress);
+        updateReadingProgress();
     </script>
 </body>
 </html>

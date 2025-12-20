@@ -9,11 +9,11 @@
 
 | # | Idea | Status | Date Completed | Notes |
 |---|------|--------|----------------|-------|
-| 1 | Reading Progress Indicator | ⬜ Pending | - | - |
+| 1 | Reading Progress Indicator | ✅ Done | 2024-12-20 | Horizontal progress bar at top of all chapter pages |
 | 2 | Keyboard Navigation | ✅ Done | 2024-12-20 | Arrow keys, 1-5 for tabs, Escape for home |
 | 3 | Page Transition Animations | ⬜ Pending | - | - |
 | 4 | Complete Chapter 21 (The Fox) | ✅ Done | 2024-12-20 | Most important chapter - comprehensive interpretation with all 5 sections |
-| 5 | Night Mode Toggle | ⬜ Pending | - | - |
+| 5 | Night Mode Toggle | ❌ Cancelled | - | לא צריך |
 | 6 | Chapter Search/Filter | ⬜ Pending | - | - |
 | 7 | Bookmark System | ⬜ Pending | - | - |
 | 8 | Table of Contents Sidebar | ⬜ Pending | - | - |

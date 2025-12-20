@@ -463,8 +463,21 @@
         .symbol-grid { grid-template-columns: 1fr; }
     }
     
-    /* PRINT STYLES FOR BOOK */
-    @media print {
+        /* READING PROGRESS INDICATOR */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+            z-index: 1000;
+            transition: width 0.1s ease-out;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+        }
+        
+        /* PRINT STYLES FOR BOOK */
+        @media print {
         .nav-container, .book-nav, .reveal-btn, .hint-btn { display: none; }
         .section { display: block !important; page-break-inside: avoid; }
         .reveal-content { max-height: none !important; padding: 25px !important; }
@@ -520,6 +533,9 @@
 </style>
 </head>
 <body>
+    <!-- READING PROGRESS INDICATOR -->
+    <div class="reading-progress" id="readingProgress"></div>
+    
     <!-- STARS - Always include -->
     <div class="stars-container" id="stars"></div>
 
@@ -1737,9 +1753,20 @@
         }
     });
     
-    // Initialize
-    createStars();
-    if (document.getElementById('journey').classList.contains('active')) animateTimeline();
+        // Reading Progress Indicator
+        function updateReadingProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            document.getElementById('readingProgress').style.width = progress + '%';
+        }
+        window.addEventListener('scroll', updateReadingProgress);
+        window.addEventListener('resize', updateReadingProgress);
+        
+        // Initialize
+        createStars();
+        updateReadingProgress();
+        if (document.getElementById('journey').classList.contains('active')) animateTimeline();
 </script>
 </body>
 </html>
