@@ -138,7 +138,7 @@
       "title": "גן הוורדים",
       "icon": "ti-garden-cart",
       "color": "#E8A0A0",
-      "available": false
+      "available": true
     },
     {
       "number": 21,
@@ -152,42 +152,42 @@
       "title": "איש המסילות",
       "icon": "ti-train",
       "color": "#87CEEB",
-      "available": false
+      "available": true
     },
     {
       "number": 23,
       "title": "סוחר הגלולות",
       "icon": "ti-clock",
       "color": "#CD5C5C",
-      "available": false
+      "available": true
     },
     {
       "number": 24,
       "title": "הבאר",
       "icon": "ti-search",
       "color": "#F0E68C",
-      "available": false
+      "available": true
     },
     {
       "number": 25,
       "title": "הבאר והמים",
       "icon": "ti-droplet",
       "color": "#DAA520",
-      "available": false
+      "available": true
     },
     {
       "number": 26,
       "title": "הפרידה",
       "icon": "ti-heart-broken",
       "color": "#6B8E9F",
-      "available": false
+      "available": true
     },
     {
       "number": 27,
       "title": "הסיום",
       "icon": "ti-star",
       "color": "#6B8E9F",
-      "available": false
+      "available": true
     }
   ]
 }
