@@ -145,7 +145,7 @@
       "title": "השועל",
       "icon": "ti-heart",
       "color": "#DAA520",
-      "available": false
+      "available": true
     },
     {
       "number": 22,

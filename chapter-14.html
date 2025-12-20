@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -1090,9 +1090,53 @@
             });
         }
         
-        // Initialize
+        // Keyboard Navigation
+        document.addEventListener('keydown', function(e) {
+            // Don't trigger if user is typing in an input field
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            
+            const currentChapter = 14; // Current chapter number
+            const totalChapters = 27;
+            
+            switch(e.key) {
+                case 'ArrowLeft': // Next chapter (RTL - left is forward)
+                    e.preventDefault();
+                    if (currentChapter < totalChapters) {
+                        const nextChapter = String(currentChapter + 1).padStart(2, '0');
+                        window.location.href = `chapter-${nextChapter}.html`;
+                    }
+                    break;
+                case 'ArrowRight': // Previous chapter (RTL - right is backward)
+                    e.preventDefault();
+                    if (currentChapter > 1) {
+                        const prevChapter = String(currentChapter - 1).padStart(2, '0');
+                        window.location.href = `chapter-${prevChapter}.html`;
+                    }
+                    break;
+                case 'Escape': // Go to home/index
+                    e.preventDefault();
+                    window.location.href = 'index.html';
+                    break;
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                    e.preventDefault();
+                    const tabs = ['summary', 'symbols', 'journey', 'interpretations', 'challenges'];
+                    const tabIndex = parseInt(e.key) - 1;
+                    if (tabIndex < tabs.length) {
+                        // Click the corresponding tab button
+                        const tabBtn = document.querySelector(`[data-section="${tabs[tabIndex]}"]`);
+                        if (tabBtn) tabBtn.click();
+                    }
+                    break;
+            }
+        });
+                // Initialize
         createStars();
         if (document.getElementById('journey').classList.contains('active')) animateTimeline();
     </script>
 </body>
 </html>
+
