@@ -328,6 +328,166 @@
             display: block;
         }
         
+        /* SEARCH & FILTER */
+        .search-filter-container {
+            margin-bottom: 25px;
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 1rem;
+            border: 2px solid var(--sand-dark);
+            border-radius: 30px;
+            background: var(--sand-light);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            direction: rtl;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #E8A0A0;
+            box-shadow: 0 0 0 3px rgba(232, 160, 160, 0.2);
+        }
+        
+        .search-box input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+        
+        .search-box .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+        
+        .search-box .clear-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            padding: 5px;
+        }
+        
+        .search-box .clear-btn.visible {
+            opacity: 1;
+        }
+        
+        .search-box .clear-btn:hover {
+            color: #CD5C5C;
+        }
+        
+        .mood-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .mood-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.9rem;
+            border: 2px solid var(--sand-dark);
+            border-radius: 20px;
+            background: var(--sand-light);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mood-btn i {
+            font-size: 1rem;
+        }
+        
+        .mood-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .mood-btn.active {
+            background: var(--btn-color, #E8A0A0);
+            border-color: var(--btn-color, #E8A0A0);
+            color: white;
+        }
+        
+        .mood-btn .count {
+            background: rgba(0,0,0,0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-right: 4px;
+        }
+        
+        .mood-btn.active .count {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* NO RESULTS */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            grid-column: 1 / -1;
+        }
+        
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+            opacity: 0.5;
+        }
+        
+        .no-results p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        .no-results .suggestion {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        /* FILTERED STATE - fade out non-matching */
+        .chapter-card.filtered-out {
+            display: none;
+        }
+        
+        /* RESULT COUNT */
+        .result-count {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .result-count.visible {
+            opacity: 1;
+        }
+        
         /* FOOTER */
         .footer {
             text-align: center;
@@ -470,6 +630,21 @@
                 בחר פרק
             </h2>
             
+            <!-- SEARCH & FILTER -->
+            <div class="search-filter-container">
+                <div class="search-box">
+                    <i class="ti ti-search search-icon"></i>
+                    <input type="text" id="chapter-search" placeholder="חפש פרק לפי שם..." autocomplete="off">
+                    <button class="clear-btn" id="clear-search" aria-label="נקה חיפוש">
+                        <i class="ti ti-x"></i>
+                    </button>
+                </div>
+                <div class="mood-filters" id="mood-filters">
+                    <!-- Mood buttons will be inserted here by JavaScript -->
+                </div>
+                <p class="result-count" id="result-count"></p>
+            </div>
+            
             <div class="chapters-grid" id="chapters-grid">
                 <!-- Loading state -->
                 <div class="loading" id="loading-state">
@@ -531,6 +706,12 @@
     </footer>
 
     <script>
+        // Global state
+        let chaptersData = [];
+        let moodsData = [];
+        let currentMood = 'all';
+        let currentSearch = '';
+        
         // Create stars using SVG
         function createStars() {
             const container = document.getElementById('stars');
@@ -564,40 +745,25 @@
                 }
                 
                 const data = await response.json();
+                chaptersData = data.chapters;
+                moodsData = data.moods || [];
                 
                 // Remove loading state
                 if (loadingState) {
                     loadingState.remove();
                 }
                 
+                // Render mood filters
+                renderMoodFilters();
+                
                 // Render chapters
-                data.chapters.forEach(chapter => {
-                    const chapterNum = String(chapter.number).padStart(2, '0');
-                    const statusClass = chapter.available ? 'available' : 'coming-soon';
-                    
-                    const card = document.createElement('a');
-                    card.href = `chapter-${chapterNum}.html`;
-                    card.className = `chapter-card ${statusClass}`;
-                    card.style.setProperty('--chapter-color', chapter.color);
-                    
-                    card.innerHTML = `
-                        <span class="chapter-number">פרק ${chapter.number}</span>
-                        <i class="ti ${chapter.icon} chapter-icon"></i>
-                        <span class="chapter-title">${chapter.title}</span>
-                    `;
-                    
-                    // Prevent navigation for coming soon chapters
-                    if (!chapter.available) {
-                        card.addEventListener('click', function(e) {
-                            e.preventDefault();
-                        });
-                    }
-                    
-                    grid.appendChild(card);
-                });
+                renderChapters();
                 
                 // Update progress
                 updateProgress(data.chapters);
+                
+                // Setup search and filter handlers
+                setupSearchAndFilter();
                 
                 // Animate cards with staggered delay
                 animateCards();
@@ -618,6 +784,189 @@
             }
         }
         
+        // Render mood filter buttons
+        function renderMoodFilters() {
+            const container = document.getElementById('mood-filters');
+            if (!container || !moodsData.length) return;
+            
+            // Calculate counts for each mood
+            const moodCounts = {};
+            chaptersData.forEach(ch => {
+                moodCounts[ch.mood] = (moodCounts[ch.mood] || 0) + 1;
+            });
+            
+            moodsData.forEach(mood => {
+                const btn = document.createElement('button');
+                btn.className = 'mood-btn' + (mood.id === 'all' ? ' active' : '');
+                btn.dataset.mood = mood.id;
+                btn.style.setProperty('--btn-color', mood.color);
+                
+                const count = mood.id === 'all' ? chaptersData.length : (moodCounts[mood.id] || 0);
+                
+                btn.innerHTML = `
+                    <i class="ti ${mood.icon}"></i>
+                    <span>${mood.name}</span>
+                    <span class="count">${count}</span>
+                `;
+                
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentMood = mood.id;
+                    filterChapters();
+                });
+                
+                container.appendChild(btn);
+            });
+        }
+        
+        // Render chapters to the grid
+        function renderChapters() {
+            const grid = document.getElementById('chapters-grid');
+            grid.innerHTML = '';
+            
+            chaptersData.forEach(chapter => {
+                const chapterNum = String(chapter.number).padStart(2, '0');
+                const statusClass = chapter.available ? 'available' : 'coming-soon';
+                
+                const card = document.createElement('a');
+                card.href = `chapter-${chapterNum}.html`;
+                card.className = `chapter-card ${statusClass}`;
+                card.style.setProperty('--chapter-color', chapter.color);
+                card.dataset.title = chapter.title.toLowerCase();
+                card.dataset.mood = chapter.mood;
+                card.dataset.number = chapter.number;
+                
+                card.innerHTML = `
+                    <span class="chapter-number">פרק ${chapter.number}</span>
+                    <i class="ti ${chapter.icon} chapter-icon"></i>
+                    <span class="chapter-title">${chapter.title}</span>
+                `;
+                
+                // Prevent navigation for coming soon chapters
+                if (!chapter.available) {
+                    card.addEventListener('click', function(e) {
+                        e.preventDefault();
+                    });
+                }
+                
+                grid.appendChild(card);
+            });
+        }
+        
+        // Setup search and filter handlers
+        function setupSearchAndFilter() {
+            const searchInput = document.getElementById('chapter-search');
+            const clearBtn = document.getElementById('clear-search');
+            
+            // Search input handler
+            searchInput.addEventListener('input', function() {
+                currentSearch = this.value.trim().toLowerCase();
+                clearBtn.classList.toggle('visible', currentSearch.length > 0);
+                filterChapters();
+            });
+            
+            // Clear button handler
+            clearBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                currentSearch = '';
+                clearBtn.classList.remove('visible');
+                filterChapters();
+                searchInput.focus();
+            });
+            
+            // Keyboard shortcut: Escape to clear search
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    this.value = '';
+                    currentSearch = '';
+                    clearBtn.classList.remove('visible');
+                    filterChapters();
+                    this.blur();
+                }
+            });
+        }
+        
+        // Filter chapters based on search and mood
+        function filterChapters() {
+            const cards = document.querySelectorAll('.chapter-card');
+            let visibleCount = 0;
+            
+            cards.forEach(card => {
+                const title = card.dataset.title;
+                const mood = card.dataset.mood;
+                const number = card.dataset.number;
+                
+                // Check mood filter
+                const moodMatch = currentMood === 'all' || mood === currentMood;
+                
+                // Check search filter (search in title and number)
+                const searchMatch = !currentSearch || 
+                    title.includes(currentSearch) || 
+                    number.includes(currentSearch) ||
+                    `פרק ${number}`.includes(currentSearch);
+                
+                if (moodMatch && searchMatch) {
+                    card.classList.remove('filtered-out');
+                    visibleCount++;
+                } else {
+                    card.classList.add('filtered-out');
+                }
+            });
+            
+            // Update result count
+            updateResultCount(visibleCount);
+            
+            // Show/hide no results message
+            showNoResultsMessage(visibleCount === 0);
+            
+            // Re-animate visible cards
+            animateVisibleCards();
+        }
+        
+        // Update result count display
+        function updateResultCount(count) {
+            const resultCount = document.getElementById('result-count');
+            const hasFilter = currentMood !== 'all' || currentSearch.length > 0;
+            
+            if (hasFilter) {
+                resultCount.textContent = `מציג ${count} מתוך ${chaptersData.length} פרקים`;
+                resultCount.classList.add('visible');
+            } else {
+                resultCount.classList.remove('visible');
+            }
+        }
+        
+        // Show no results message
+        function showNoResultsMessage(show) {
+            const grid = document.getElementById('chapters-grid');
+            let noResults = grid.querySelector('.no-results');
+            
+            if (show && !noResults) {
+                noResults = document.createElement('div');
+                noResults.className = 'no-results';
+                noResults.innerHTML = `
+                    <i class="ti ti-search-off"></i>
+                    <p>לא נמצאו פרקים תואמים</p>
+                    <p class="suggestion">נסה לחפש משהו אחר או לבחור קטגוריה אחרת</p>
+                `;
+                grid.appendChild(noResults);
+            } else if (!show && noResults) {
+                noResults.remove();
+            }
+        }
+        
+        // Animate visible cards
+        function animateVisibleCards() {
+            const visibleCards = document.querySelectorAll('.chapter-card:not(.filtered-out)');
+            visibleCards.forEach((card, index) => {
+                card.classList.remove('animate-in');
+                setTimeout(() => {
+                    card.classList.add('animate-in');
+                }, index * 20);
+            });
+        }
+        
         // Update progress bar
         function updateProgress(chapters) {
             const availableCount = chapters.filter(ch => ch.available).length;
@@ -634,13 +983,13 @@
             cards.forEach((card, index) => {
                 setTimeout(() => {
                     card.classList.add('animate-in');
-                }, index * 30); // 30ms stagger between each card
+                }, index * 30);
             });
         }
         
         // Page transition on chapter click
         document.addEventListener('click', function(e) {
-            const card = e.target.closest('.chapter-card.available');
+            const card = e.target.closest('.chapter-card.available:not(.filtered-out)');
             if (card) {
                 e.preventDefault();
                 const href = card.getAttribute('href');
