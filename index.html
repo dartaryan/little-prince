@@ -378,6 +378,48 @@
         @media (max-width: 480px) {
             .chapters-grid { grid-template-columns: repeat(2, 1fr); }
         }
+        
+        /* PAGE TRANSITION ANIMATIONS */
+        .page-content {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: pageEnter 0.6s ease forwards;
+        }
+        
+        @keyframes pageEnter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .chapter-card {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+        
+        .chapter-card.animate-in {
+            animation: cardEnter 0.4s ease forwards;
+        }
+        
+        @keyframes cardEnter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Page exit animation */
+        body.page-exit .page-content {
+            animation: pageExit 0.3s ease forwards;
+        }
+        
+        @keyframes pageExit {
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -389,6 +431,9 @@
     <div class="planet planet-2"></div>
     <div class="planet planet-3"></div>
 
+    <!-- PAGE CONTENT WRAPPER for transitions -->
+    <div class="page-content">
+    
     <!-- HEADER -->
     <header class="header">
         <div class="header-icon">
@@ -452,6 +497,8 @@
         </div>
     </main>
 
+    </div><!-- END page-content -->
+    
     <!-- KEYBOARD HINTS -->
     <div class="keyboard-hints" style="text-align: center; padding: 20px; margin-top: 30px; background: rgba(255,255,255,0.05); border-radius: 15px; color: #F5E6C8; font-size: 0.85rem;">
         <p style="margin-bottom: 10px; opacity: 0.8;">
@@ -552,6 +599,9 @@
                 // Update progress
                 updateProgress(data.chapters);
                 
+                // Animate cards with staggered delay
+                animateCards();
+                
             } catch (error) {
                 console.error('Error loading chapters:', error);
                 
@@ -577,6 +627,29 @@
             document.getElementById('completed-count').textContent = availableCount;
             document.getElementById('progress-fill').style.width = percentage + '%';
         }
+        
+        // Animate cards with staggered delay
+        function animateCards() {
+            const cards = document.querySelectorAll('.chapter-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('animate-in');
+                }, index * 30); // 30ms stagger between each card
+            });
+        }
+        
+        // Page transition on chapter click
+        document.addEventListener('click', function(e) {
+            const card = e.target.closest('.chapter-card.available');
+            if (card) {
+                e.preventDefault();
+                const href = card.getAttribute('href');
+                document.body.classList.add('page-exit');
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 300);
+            }
+        });
         
         // Initialize
         createStars();

@@ -451,6 +451,38 @@
         @keyframes glow { 0% { filter: drop-shadow(0 0 5px rgba(218, 165, 32, 0.5)); } 100% { filter: drop-shadow(0 0 15px rgba(218, 165, 32, 0.9)); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* PAGE TRANSITION ANIMATIONS */
+        @keyframes pageEnter { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        @keyframes slideInRight { 
+            from { opacity: 0; transform: translateX(-20px); } 
+            to { opacity: 1; transform: translateX(0); } 
+        }
+        @keyframes slideInLeft { 
+            from { opacity: 0; transform: translateX(20px); } 
+            to { opacity: 1; transform: translateX(0); } 
+        }
+        
+        .page-wrapper {
+            animation: pageEnter 0.5s ease forwards;
+        }
+        
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        .section.slide-right {
+            animation: slideInRight 0.4s ease;
+        }
+        .section.slide-left {
+            animation: slideInLeft 0.4s ease;
+        }
+        
         /* RESPONSIVE */
         @media (max-width: 600px) {
             .header h1 { font-size: 1.8rem; }
@@ -497,6 +529,9 @@
         <i class="ti ti-home"></i>
         חזרה לתפריט
     </a>
+    
+    <!-- PAGE WRAPPER for transitions -->
+    <div class="page-wrapper">
     
     <!-- HEADER -->
     <header class="header">
@@ -1009,6 +1044,8 @@
         </p>
     </footer>
     
+    </div><!-- END page-wrapper -->
+    
     <!-- JAVASCRIPT - Always include this exact script -->
     <script>
         // Create stars with CSS only - no SVG
@@ -1029,14 +1066,27 @@
             }
         }
         
-        // Navigation
-        document.querySelectorAll('.nav-btn').forEach(btn => {
+        // Navigation with directional slide animation
+        let currentTabIndex = 0;
+        const tabs = ['summary', 'symbols', 'journey', 'interpretations', 'challenges'];
+        
+        document.querySelectorAll('.nav-btn').forEach((btn, index) => {
             btn.addEventListener('click', function() {
+                const sectionId = this.dataset.section;
+                const newIndex = tabs.indexOf(sectionId);
+                const direction = newIndex > currentTabIndex ? 'slide-right' : 'slide-left';
+                
                 document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
-                const sectionId = this.dataset.section;
-                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                document.getElementById(sectionId).classList.add('active');
+                
+                document.querySelectorAll('.section').forEach(s => {
+                    s.classList.remove('active', 'slide-right', 'slide-left');
+                });
+                
+                const newSection = document.getElementById(sectionId);
+                newSection.classList.add('active', direction);
+                
+                currentTabIndex = newIndex;
                 if (sectionId === 'journey') animateTimeline();
             });
         });

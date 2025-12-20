@@ -451,6 +451,16 @@
         @keyframes sway { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* PAGE TRANSITION ANIMATIONS */
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        .page-wrapper { animation: pageEnter 0.5s ease forwards; }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn 0.4s ease; }
+        .section.slide-right { animation: slideInRight 0.4s ease; }
+        .section.slide-left { animation: slideInLeft 0.4s ease; }
+        
         /* RESPONSIVE */
         @media (max-width: 600px) {
             .header h1 { font-size: 1.8rem; }
@@ -544,6 +554,9 @@
         <i class="ti ti-home"></i>
         חזרה לתפריט
     </a>
+
+    <!-- PAGE WRAPPER for transitions -->
+    <div class="page-wrapper">
     
     <!-- HEADER -->
     <header class="header">
@@ -1450,8 +1463,9 @@
             </a>
         </div>
     </main>
-    
+
     <!-- FOOTER -->
+    </div><!-- END page-wrapper -->
     <footer class="footer">
         <p>
             <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; fill: #FFD700 !important; vertical-align: middle; display: inline-block;">
@@ -1485,14 +1499,27 @@
             }
         }
         
-        // Navigation
-        document.querySelectorAll('.nav-btn').forEach(btn => {
+        // Navigation with directional slide animation
+        let currentTabIndex = 0;
+        const tabs = ['summary', 'symbols', 'journey', 'interpretations', 'challenges'];
+        
+        document.querySelectorAll('.nav-btn').forEach((btn, index) => {
             btn.addEventListener('click', function() {
+                const sectionId = this.dataset.section;
+                const newIndex = tabs.indexOf(sectionId);
+                const direction = newIndex > currentTabIndex ? 'slide-right' : 'slide-left';
+                
                 document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
-                const sectionId = this.dataset.section;
-                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                document.getElementById(sectionId).classList.add('active');
+                
+                document.querySelectorAll('.section').forEach(s => {
+                    s.classList.remove('active', 'slide-right', 'slide-left');
+                });
+                
+                const newSection = document.getElementById(sectionId);
+                newSection.classList.add('active', direction);
+                
+                currentTabIndex = newIndex;
                 if (sectionId === 'journey') animateTimeline();
             });
         });

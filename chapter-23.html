@@ -451,6 +451,16 @@
         @keyframes glow { 0% { filter: drop-shadow(0 0 5px rgba(205, 92, 92, 0.5)); } 100% { filter: drop-shadow(0 0 15px rgba(205, 92, 92, 0.9)); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* PAGE TRANSITION ANIMATIONS */
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        .page-wrapper { animation: pageEnter 0.5s ease forwards; }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn 0.4s ease; }
+        .section.slide-right { animation: slideInRight 0.4s ease; }
+        .section.slide-left { animation: slideInLeft 0.4s ease; }
+
         /* RESPONSIVE */
         @media (max-width: 600px) {
             .header h1 { font-size: 1.8rem; }
@@ -497,6 +507,9 @@
         <i class="ti ti-home"></i>
         חזרה לתפריט
     </a>
+
+    <!-- PAGE WRAPPER for transitions -->
+    <div class="page-wrapper">
     
     <!-- HEADER -->
     <header class="header">
@@ -967,8 +980,9 @@
             </a>
         </div>
     </main>
-    
+
     <!-- FOOTER -->
+    </div><!-- END page-wrapper -->
     <footer class="footer">
         <p>
             <i class="ti ti-star-filled" style="color: #FFD700;"></i>

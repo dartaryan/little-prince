@@ -408,12 +408,24 @@
             transition: width 0.1s ease-out;
             box-shadow: 0 1px 5px rgba(0,0,0,0.2);
         }
+        
+        /* PAGE TRANSITION ANIMATIONS */
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        .page-wrapper { animation: pageEnter 0.5s ease forwards; }
+        .section { animation: fadeIn 0.4s ease; }
+        .section.slide-right { animation: slideInRight 0.4s ease; }
+        .section.slide-left { animation: slideInLeft 0.4s ease; }
     </style>
 </head>
 <body>
     <!-- READING PROGRESS INDICATOR -->
     <div class="reading-progress" id="readingProgress"></div>
-    
+
+    <!-- PAGE WRAPPER for transitions -->
+    <div class="page-wrapper">
     <div class="container">
         <!-- Header -->
         <header class="chapter-header">
@@ -964,6 +976,7 @@
             </a>
         </nav>
     </div>
+    </div><!-- END page-wrapper -->
 
     <script>
         function toggleSymbol(card) {
