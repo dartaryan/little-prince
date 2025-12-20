@@ -33,7 +33,7 @@
       "title": "הבאובבים",
       "icon": "ti-tree",
       "color": "#8FBC8F",
-      "available": false
+      "available": true
     },
     {
       "number": 6,
@@ -68,21 +68,21 @@
       "title": "המלך",
       "icon": "ti-crown",
       "color": "#CD5C5C",
-      "available": false
+      "available": true
     },
     {
       "number": 11,
       "title": "השאפתן",
       "icon": "ti-award",
       "color": "#CD5C5C",
-      "available": false
+      "available": true
     },
     {
       "number": 12,
       "title": "השיכור",
       "icon": "ti-bottle",
       "color": "#CD5C5C",
-      "available": false
+      "available": true
     },
     {
       "number": 13,
