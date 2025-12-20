@@ -26,7 +26,7 @@
       "title": "כוכב B-612",
       "icon": "ti-calculator",
       "color": "#98D8C8",
-      "available": false
+      "available": true
     },
     {
       "number": 5,
@@ -40,14 +40,14 @@
       "title": "השקיעות",
       "icon": "ti-sun",
       "color": "#7B8B9A",
-      "available": false
+      "available": true
     },
     {
       "number": 7,
       "title": "סוד הוורד",
       "icon": "ti-lock",
       "color": "#9370DB",
-      "available": false
+      "available": true
     },
     {
       "number": 8,
@@ -61,7 +61,7 @@
       "title": "הנסיעה",
       "icon": "ti-door-exit",
       "color": "#87CEEB",
-      "available": false
+      "available": true
     },
     {
       "number": 10,
