@@ -89,49 +89,49 @@
       "title": "איש העסקים",
       "icon": "ti-briefcase",
       "color": "#CD5C5C",
-      "available": false
+      "available": true
     },
     {
       "number": 14,
       "title": "מדליק הפנסים",
       "icon": "ti-bulb",
       "color": "#DAA520",
-      "available": false
+      "available": true
     },
     {
       "number": 15,
       "title": "הגאוגרף",
       "icon": "ti-map",
       "color": "#CD5C5C",
-      "available": false
+      "available": true
     },
     {
       "number": 16,
       "title": "כדור הארץ",
       "icon": "ti-world",
       "color": "#87CEEB",
-      "available": false
+      "available": true
     },
     {
       "number": 17,
       "title": "הנחש",
       "icon": "ti-snake",
       "color": "#9370DB",
-      "available": false
+      "available": true
     },
     {
       "number": 18,
       "title": "פרח במדבר",
       "icon": "ti-flower",
       "color": "#7B8B9A",
-      "available": false
+      "available": true
     },
     {
       "number": 19,
       "title": "הר ההד",
       "icon": "ti-mountain",
       "color": "#7B8B9A",
-      "available": false
+      "available": true
     },
     {
       "number": 20,
